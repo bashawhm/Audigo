@@ -1,12 +1,39 @@
 package main
 
 import (
-	"os"
+
+	//	"math"
+	//	"net"
 
 	"github.com/gordonklaus/portaudio"
 	"github.com/nsf/termbox-go"
 )
 
+/*
+func send(in [][]float32, conns []net.Conn) {
+	for i := range conns {
+		bits := make([][]uint32, len(in))
+		bits[i] = make([]uint32, len(in[i]))
+		for j := range in[i] {
+			bits[i][j] = math.Float32bits(in[i][j])
+		}
+		bytes := make([]byte, len(in[i])*4)
+		conns[i].Write(bytes)
+	}
+}
+
+func netStart(files []string) []net.Conn {
+	conns := make([]net.Conn, len(files))
+	for i := range files {
+		conn, err := net.Dial("udp", files[i])
+		if err != nil {
+			fmt.Println(err)
+		}
+		conns[i] = conn
+	}
+
+}
+*/
 func tbprint(x, y int, ch rune, fg, bg termbox.Attribute) {
 	for i := 0; i <= x; i++ {
 		termbox.SetCell(i, y, ch, fg, bg)
@@ -64,6 +91,7 @@ func main() {
 	termbox.SetInputMode(termbox.InputAlt | termbox.InputMouse)
 	portaudio.Initialize()
 	defer portaudio.Terminate()
+	//Read file
 
 	hostAPI, err := portaudio.DefaultHostApi()
 	if err != nil {
@@ -85,7 +113,7 @@ func main() {
 	for {
 		switch ev := termbox.PollEvent(); ev.Type {
 		case termbox.EventKey:
-			os.Exit(1)
+			return
 		}
 	}
 
